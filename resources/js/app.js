@@ -7,3 +7,5 @@
 require('./bootstrap');
 
 require('@fortawesome/fontawesome-free/js/all');
+
+window.echo = require('./echo.js').default;

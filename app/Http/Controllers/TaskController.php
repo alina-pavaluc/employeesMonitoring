@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TaskCreated;
 use App\Task;
 use App\TaskStatus;
 use App\User;
@@ -23,12 +24,13 @@ class TaskController extends Controller
             'description' => 'required|string'
         ]);
 
-        Task::create([
+        $task = Task::create([
             "name" => $request->input("name"),
             "description" => $request->input("description"),
             "owner_id" => $user->id
         ]);
 
+        event(new TaskCreated($task));
 
         return redirect()->back();
     }
