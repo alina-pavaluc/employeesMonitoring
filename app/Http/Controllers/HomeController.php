@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\UserType;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -11,9 +11,13 @@ class HomeController extends Controller
     {
         $data = [];
 
-        if (auth()->user()->user_type == UserType::EMPLOYER) {
+        if (Auth::user()->isEmployer()) {
             $data['employees'] = User::employee()->get();
+        } else {
+
+            $data['tasks'] = Auth::user()->tasks()->latest()->orderByDesc('status')->get();
         }
+
         return view('home', $data);
     }
 }

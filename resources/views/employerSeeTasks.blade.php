@@ -19,7 +19,8 @@
                                           id="description"></textarea>
                             </div>
 
-                            <input type="submit" value="Send task" class="btn btn-primary btn-block">
+                            <input type="submit" value="Send task to {{$employee->name}}"
+                                   class="btn btn-primary btn-block">
                         </form>
                     </div>
                 </div>
@@ -32,14 +33,29 @@
                                 <td>Name</td>
                                 <td>Description</td>
                                 <td>Status</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Production update</td>
-                                <td>Update production today</td>
-                                <td>New</td>
-                            </tr>
+                            @foreach($tasks as $task)
+                                <tr>
+                                    <td>{{ $task->name }}</td>
+                                    <td>{{ $task->description }}</td>
+                                    <td>{{ $task->status }}</td>
+                                    <td>
+                                        <a class="btn btn-link" href="/task/{{$task->id}}"><i class="fa fa-pen"></i></a>
+                                    </td>
+                                    <td>
+                                        <form action="/task/{{$task->id}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-link text-danger" type="submit"><i
+                                                        class="fa fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
