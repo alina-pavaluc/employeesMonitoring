@@ -36,8 +36,6 @@
     <script>
         const a = echo.private('employee.{{ Auth::id() }}.tasks')
             .listen('TaskCreated', ({task}) => {
-                console.log({task});
-
                 const csrfToken = "{{ csrf_token() }}";
                 const template = `
 <tr class="new-task">
@@ -55,7 +53,6 @@
 </tr>`;
                 let newRow = $(template).prependTo($('#task-container'));
                 newRow.hover(() => newRow.removeClass('new-task'));
-                console.log(message);
             });
     </script>
 @endsection

@@ -40,9 +40,10 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable
 {
     use Notifiable;
-
     protected $guarded = [];
+
     protected $hidden = ['password', 'remember_token'];
+    protected $with = ['todayCheckIn'];
 
     public function scopeEmployee($query)
     {
@@ -70,4 +71,23 @@ class User extends Authenticatable
         return $this->hasMany(Task::class, 'owner_id');
     }
 
+    public function checkIns()
+    {
+        return $this->hasMany(CheckIn::class, 'employee_id');
+    }
+
+    public function todayCheckIn()
+    {
+        return $this->hasOne(CheckIn::class, 'employee_id')->whereDate('checked_in_at', '=', Carbon::today());
+    }
+
+    public function getIsCheckedInAttribute()
+    {
+        return $this->todayCheckIn ? $this->todayCheckIn->checked_out_at == null : false;
+    }
+
+    public function getHasCheckedOutAttribute()
+    {
+        return $this->todayCheckIn ? $this->todayCheckIn->checked_out_at != null : false;
+    }
 }

@@ -6,8 +6,10 @@
             <div class="col">
                 <div class="card">
                     @if($isEmployee)
-                        @if(Session::get('checked-in', false))
+                        @if(Auth::user()->isCheckedIn)
                             @include('employeeCard')
+                        @elseif(Auth::user()->hasCheckedOut)
+                            @include("alreadyCheckedOut")
                         @else
                             @include('checkInButton')
                         @endif

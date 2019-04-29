@@ -19,7 +19,7 @@
                     Change password
                 </a>
 
-                @if($isEmployee)
+                @if($isEmployee and Auth::user()->isCheckedIn and !Auth::user()->hasCheckedOut)
                     <a class="dropdown-item" href="/check-out"
                        onclick="event.preventDefault(); document.getElementById('check-out-form').submit();">
                         Check Out
@@ -35,9 +35,11 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                <form id="check-out-form" action="/check-out" method="POST" style="display: none;">
-                    @csrf
-                </form>
+                @if($isEmployee and Auth::user()->isCheckedIn and !Auth::user()->hasCheckedOut)
+                    <form id="check-out-form" action="/check-out" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endif
             </div>
         </li>
     @endguest
