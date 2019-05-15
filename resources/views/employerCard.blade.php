@@ -17,6 +17,10 @@
         <tr>
             <td>Name</td>
             <td>Email</td>
+            <td>Check in at</td>
+            @if (Request::has('allEmployees'))
+                <td>Check out at</td>
+            @endif
             <td>Tasks</td>
             <td>Edit</td>
             <td>Delete</td>
@@ -27,6 +31,12 @@
             <tr id="employee-{{ $employee->id }}">
                 <td>{{$employee->name}}</td>
                 <td>{{$employee->email}}</td>
+                <td>@if ($employee->todayCheckIn){{$employee->todayCheckIn->checked_in_at->format('h:i A')}}@endif</td>
+                @if (Request::has('allEmployees'))
+                    <td>
+                        @if($employee->hasCheckedOut){{ $employee->todayCheckIn->checked_out_at->format('h:i A') }}@endif
+                    </td>
+                @endif
                 <td>
                     <a class="btn btn-link" href="/employee/{{$employee->id}}/tasks"><i class="fa fa-tasks"></i></a>
                 </td>
@@ -61,6 +71,8 @@
 <tr id="employee-${user.id}">
     <td>${user.name}</td>
     <td>${user.email}</td>
+    <td>${moment().format('LT')}</td>
+
     <td>
         <a class="btn btn-link" href="/employee/${user.id}/tasks"><i class="fa fa-tasks"></i></a>
     </td>

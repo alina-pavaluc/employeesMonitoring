@@ -16,7 +16,7 @@ class CreateCheckInsTable extends Migration
         Schema::create('check_ins', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('employee_id');
-            $table->foreign('employee_id')->references('id')->on('users');
+            $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
             $table->dateTime('checked_in_at');
             $table->dateTime('checked_out_at')->nullable();
             $table->timestamps();

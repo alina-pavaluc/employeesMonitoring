@@ -4,10 +4,10 @@ namespace App;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 
 /**
@@ -36,10 +36,14 @@ use Illuminate\Support\Carbon;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUserType($value)
+ * @property-read Collection|CheckIn[] $checkIns
+ * @property-read mixed $has_checked_out
+ * @property-read mixed $is_checked_in
+ * @property-read Collection|Task[] $tasks
+ * @property-read CheckIn $todayCheckIn
  */
 class User extends Authenticatable
 {
-    use Notifiable;
     protected $guarded = [];
 
     protected $hidden = ['password', 'remember_token'];
